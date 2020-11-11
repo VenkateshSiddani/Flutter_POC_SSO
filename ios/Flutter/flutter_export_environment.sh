@@ -1,0 +1,16 @@
+#!/bin/sh
+# This is a generated file; do not edit or check into version control.
+export "FLUTTER_ROOT=/Users/773777/Desktop/Venky/Flutter_Development/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/773777/Desktop/Venky/WorkSpace/WorkingCode_AID/Flutter_POC_SSO"
+export "FLUTTER_TARGET=/Users/773777/Desktop/Venky/WorkSpace/WorkingCode_AID/Flutter_POC_SSO/lib/main.dart"
+export "FLUTTER_BUILD_DIR=build"
+export "SYMROOT=${SOURCE_ROOT}/../build/ios"
+export "OTHER_LDFLAGS=$(inherited) -framework Flutter"
+export "FLUTTER_FRAMEWORK_DIR=/Users/773777/Desktop/Venky/Flutter_Development/flutter/bin/cache/artifacts/engine/ios"
+export "FLUTTER_BUILD_NAME=1.0.0"
+export "FLUTTER_BUILD_NUMBER=1"
+export "DART_DEFINES=flutter.inspector.structuredErrors%3Dtrue"
+export "DART_OBFUSCATION=false"
+export "TRACK_WIDGET_CREATION=true"
+export "TREE_SHAKE_ICONS=false"
+export "PACKAGE_CONFIG=.packages"

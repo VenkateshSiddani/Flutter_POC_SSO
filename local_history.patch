@@ -1,0 +1,106 @@
+Index: lib/Menu.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/Menu.dart	(date 1600686316000)
++++ lib/Menu.dart	(date 1600686316000)
+@@ -375,27 +375,25 @@
+      itemBuilder: (BuildContext context, int index) => new GestureDetector(
+        onTap: () {
+ 
+-         if( menuTitles[index].menuTitle == 'World Clock') {
++         if(menuTitles[index].menuTitle == 'World Clock') {
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context)  => WorldClock()
+            ));
+-         } else if( menu['label'] == 'Spotlight') {
+-           assetPath =  'Assets/MenuIcons/Spotlight.png';
+-         }else if( menu['label'] == 'Diversity Dashboard') {
++         } else if( menuTitles[index].menuTitle == 'Diversity Dashboard') {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DiversityModule(accessToken: accessTokenValue),
+ //                        builder: (context) => Menu(),
+                ));
+-         }else if( menu['label'] == 'Milestones') {
++         }else if( menuTitles[index].menuTitle == 'Milestones') {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MilestonePage(accessToken: accessTokenValue, title: 'Milestones',employeeID: employyeID,),
+ //                        builder: (context) => Menu(),
+                ));
+-         }else if( menu['label'] == 'Training') {
++         }else if(menuTitles[index].menuTitle == 'Training') {
+            if (_isPrimaryLead) {
+              Navigator.push(
+                  context,
+@@ -404,7 +402,6 @@
+                        TrainingViewControllerForLead(
+                          accessToken: accessTokenValue,
+                          employeeID: employyeID,),
+-//                        builder: (context) => Menu(),
+                  ));
+            } else {
+              Navigator.push(
+@@ -414,57 +411,8 @@
+ //                        builder: (context) => Menu(),
+                  ));
+            }
+-         }
+-
+-         if (index == 2) {
+-           // _showDialog("Coming Soon", "AID");
+-           // moveToSpotLight('ySI1uWWY1dnwlGM9vKR2fIZszd9tW%2FgFrQIKioujS5M%3D', 'Kyctsteam', 'Know Your CTS TeamMate',);
+-//            Navigator.push(
+-//                context,
+-//                MaterialPageRoute(
+-//                  builder: (context) => SpotLightMenu(accessToken: accessTokenValue),
+-// //                        builder: (context) => Menu(),
+-//                ));
+-
+-         } else if (index == 3){
+-           Navigator.push(
+-               context,
+-               MaterialPageRoute(
+-                 builder: (context) => DiversityModule(accessToken: accessTokenValue),
+-//                        builder: (context) => Menu(),
+-               ));
+-         } else if (index == 1) {
+-           Navigator.push(context, MaterialPageRoute(
+-               builder: (context)  => WorldClock()
+-           ));
+-         } else if(index == 0) {
++         } else {
+            _showDialog("Coming Soon", "AID");
+-         } else if (index == 4) {
+-           Navigator.push(
+-               context,
+-               MaterialPageRoute(
+-                 builder: (context) => MilestonePage(accessToken: accessTokenValue, title: 'Milestones',employeeID: employyeID,),
+-//                        builder: (context) => Menu(),
+-               ));
+-         }else if(index == 5) {
+-           if (_isPrimaryLead) {
+-             Navigator.push(
+-                 context,
+-                 MaterialPageRoute(
+-                   builder: (context) =>
+-                       TrainingViewControllerForLead(
+-                         accessToken: accessTokenValue,
+-                         employeeID: employyeID,),
+-//                        builder: (context) => Menu(),
+-                 ));
+-           } else {
+-             Navigator.push(
+-                 context,
+-                 MaterialPageRoute(
+-                   builder: (context) => TrainingViewController(accessToken: accessTokenValue, employeeID: employyeID,),
+-//                        builder: (context) => Menu(),
+-                 ));
+-           }
+          }
+        },
+        child: new Container(

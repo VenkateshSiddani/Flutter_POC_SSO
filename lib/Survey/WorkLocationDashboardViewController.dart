@@ -1,0 +1,475 @@
+import 'dart:io';
+
+import 'package:aid/CommonMethods.dart';
+import 'package:aid/Survey/SurveyModel.dart';
+import 'package:aid/Trainings/TrainingModel.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:page_view_indicators/circle_page_indicator.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:tuple/tuple.dart';
+import 'dart:convert';
+import '../constants.dart';
+import 'SurveyAPI.dart';
+
+class WorkLocationDashboardViewController extends StatefulWidget {
+
+  final String accessToken;
+  final String employeeID;
+  final bool isPrimaryLead;
+  WorkLocationDashboardViewController({Key key, @required this.accessToken, this.employeeID, this.isPrimaryLead}) : super(key: key);
+
+  @override
+  _WorkLocationDashboardViewControllerState createState() => _WorkLocationDashboardViewControllerState();
+}
+
+
+class _WorkLocationDashboardViewControllerState extends State<WorkLocationDashboardViewController> {
+
+  RefreshController _refreshController =  RefreshController(initialRefresh: false);
+  static MediaQueryData _mediaQueryData;
+  static double screenHeight;
+  final _pageControllerForThirdTab= PageController();
+  final _currentPageNotifierForThirdTab = ValueNotifier<int>(0);
+  bool get isPrimaryLead => widget.isPrimaryLead;
+  bool _load = false;
+  String get accessTokenValue => widget.accessToken;
+  String get employeeID => widget.employeeID;
+  bool _isAlertShows = false;
+  bool isAPILoads = false;
+  List<WorkLocationDashboard> WorkLocation = List();
+  List<SurveyCabDashboard> surveyDashboard = List();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Map<String, String> get headers => {
+    'Authorization': 'Bearer $accessTokenValue',
+    'Content-Type': 'application/json',
+  };
+  void fetchData() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none)  {
+      Commonmethod.alertToShow(CONNECTIVITY_ERROR, 'AID', context);
+    } else {
+      getWorkLocationDetailsDashboard();
+    }
+  }
+  getWorkLocationDetailsDashboard() {
+    setState(() {
+      _load = true; //
+    });
+    try {
+      getWorkLocationSurveyDashboardDetails(WORKLOCATION_DASHBOARD_SURVEY, headers: headers).then((value) {
+        if (mounted) {
+          if(value.item2 != null &&  value.item2.ErrorCode == 401) {
+            if (!_isAlertShows)
+              Commonmethod.alertToShow("Session Expired...Please try to Login Again", 'Warning', context);
+          }
+          else if (value.item2 != null) {
+            if (!_isAlertShows)
+              Commonmethod.alertToShow((value.item2.ErrorDesc), 'Error', context);
+          }
+          _load = false;
+        }
+        getSurveyStatistictForWorkLocation();
+        setState(() {
+          WorkLocation = value.item1;
+          _refreshController.loadComplete();
+          _refreshController.refreshCompleted();
+        });
+      });
+
+    } on SocketException catch (_) {
+      setState(() {
+        _load = false;
+        _refreshController.loadComplete();
+        _refreshController.refreshCompleted();
+      });
+      if (!_isAlertShows)
+        Commonmethod.alertToShow(SOCKET_EXCEPTION_ERROR, 'AID', context);
+    }
+  }
+
+  getSurveyStatistictForWorkLocation() {
+    setState(() {
+      _load = true; //
+    });
+    try {
+      getWorkLocationSurveyStatisticDashboard(CAB_DASHBOARD_SURVEYSTATISTICS, headers: headers).then((value) {
+        if (mounted) {
+          if(value.item2 != null &&  value.item2.ErrorCode == 401) {
+            if (!_isAlertShows)
+              Commonmethod.alertToShow("Session Expired...Please try to Login Again", 'Warning', context);
+          }
+          else if (value.item2 != null) {
+            if (!_isAlertShows)
+              Commonmethod.alertToShow((value.item2.ErrorDesc), 'Error', context);
+          }
+          _load = false;
+        }
+        setState(() {
+          surveyDashboard = value.item1;
+          _refreshController.loadComplete();
+          _refreshController.refreshCompleted();
+        });
+      });
+
+    } on SocketException catch (_) {
+      setState(() {
+        _load = false;
+        _refreshController.loadComplete();
+        _refreshController.refreshCompleted();
+      });
+      if (!_isAlertShows)
+        Commonmethod.alertToShow(SOCKET_EXCEPTION_ERROR, 'AID', context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    Widget loadingIndicator = _load ? new Container(
+      color: Colors.grey[300],
+      width: 70.0,
+      height: 70.0,
+      child: new Padding(padding: const EdgeInsets.all(5.0),
+          child: new Center(child: new CircularProgressIndicator())),
+    ) : new Container();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        builder: (context, child) {
+          return MediaQuery(
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(WORK_DASHBOARD),
+              ),
+              // body: _buildBody(),
+              body: SmartRefresher (
+                controller: _refreshController,
+                enablePullUp: true,
+                onRefresh: () async {
+                  fetchData();
+                },
+                child: new Stack(
+                  children: [
+                    _buildCabDashboardView(),
+                    new Align(
+                      child: loadingIndicator, alignment: Alignment.center,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+          );
+        }
+    );
+  }
+
+  _buildCabDashboardView() {
+    if (isAPILoads = false) {
+      setState(() {
+        _load = false;
+      });
+    }
+    return Column(
+      children: <Widget>[
+        Stack(
+          children: <Widget>[
+            _buildPageView(),
+            _buildCircleIndicator(),
+            // new Align(
+            //   child: loadingIndicator, alignment: Alignment.centerRight,)
+          ],
+        ),
+      ],
+    );
+  }
+
+
+  _buildPageView() {
+    _mediaQueryData = MediaQuery.of(context);
+    screenHeight = _mediaQueryData.size.height;
+    double height = 0.0;
+    if (MediaQuery.of(context).orientation == Orientation.landscape){
+      height = screenHeight - 127.0;
+    }else {
+      height = screenHeight - kBottomNavigationBarHeight  - kToolbarHeight; //- 200.0;
+    }
+    int count =  WorkLocation.length ?? 0 ;
+    return Container(
+      height: height,
+      child: PageView.builder(
+          itemCount:3, // 1 is for Showing survey stastics data
+          controller: _pageControllerForThirdTab,
+          itemBuilder: (BuildContext context, int index) {
+            return Center(
+              child: _CabSurveyDashboard(_currentPageNotifierForThirdTab.value),
+            );
+          },
+          onPageChanged: (int index1) {
+            setState(() {
+              _currentPageNotifierForThirdTab.value = index1;
+            });
+          }),
+    );
+  }
+  _buildCircleIndicator() {
+    print('Object');
+    // int count =  WorkLocation.length ?? 0 ;
+
+    return Positioned(
+      left: 0.0,
+      right: 0.0,
+      bottom: 0.0,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: CirclePageIndicator(
+          itemCount:3, // 1 is for Showing survey stastics data,
+          currentPageNotifier: _currentPageNotifierForThirdTab,
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration myBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(),
+    );
+  }
+
+
+
+  Container _CabSurveyDashboard(int value)  {
+    if(value == 0 || value == 1){
+      return  new Container(
+          child: new Stack (
+            children: <Widget>[
+              new Padding(
+                padding: new EdgeInsets.only(top: 0),
+                child: Card(
+                  // decoration: myBoxDecoration(),
+                  elevation: 10.0,
+                  semanticContainer: false,
+                  borderOnForeground: false,
+                  // shadowColor: Colors.grey
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+
+                      SizedBox(height: 55.0, child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color : Colors.lightBlue[100],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    HeadeName(WorkLocation[value].question ?? "", FontWeight.bold, index, false),
+                                    // itemName("Total", FontWeight.bold, index, false),
+                                    // itemName("Not Completed", FontWeight.bold, index, false),
+                                    // itemName("Completed", FontWeight.bold, index, false),
+                                  ],
+                                ),
+                              ),
+                            );
+                          })),
+                      SizedBox(height: 55.0, child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color : Colors.lightBlue[100],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    // HeadeName(WorkLocation[value].question ?? "", FontWeight.bold, index, false),
+                                    itemName("Actual City Name", FontWeight.bold, index, false),
+                                    itemName("Actual Count", FontWeight.bold, index, false),
+                                    // itemName("Completed", FontWeight.bold, index, false),
+                                  ],
+                                ),
+                              ),
+                            );
+                          })),
+                      cabDashboardList(value),
+//                      SizedBox(height: 20.0,),
+                    ],
+
+                  ),
+                ),
+              )
+            ],
+
+          )
+      );
+    }else if(value == 2) {
+      return  new Container(
+          child: new Stack (
+            children: <Widget>[
+              new Padding(
+                padding: new EdgeInsets.only(top: 0),
+                child: Card(
+                  // decoration: myBoxDecoration(),
+                  elevation: 10.0,
+                  semanticContainer: false,
+                  borderOnForeground: false,
+                  // shadowColor: Colors.grey
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+
+                      SizedBox(height: 75.0, child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color : Colors.lightBlue[100],
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    HeadeName("Lead Name", FontWeight.bold, index, false),
+                                    itemName("Not Completed", FontWeight.bold, index, false),
+                                    itemName("Completed", FontWeight.bold, index, false),
+                                    itemName("Total", FontWeight.bold, index, false),
+                                  ],
+                                ),
+                              ),
+                            );
+                          })),
+                      cabDashboardList(value),
+//                      SizedBox(height: 20.0,),
+                    ],
+
+                  ),
+                ),
+              )
+            ],
+
+          )
+      );
+    }
+  }
+
+  cabDashboardList(int value){
+
+    if (value  == 0 || value == 1) {
+      int count = WorkLocation[value].answerCount.length;
+      if (count == 0) {
+        return Commonmethod.noRecordsFoundContainer("No Records Found");
+      }
+      return new Expanded(child: ListView.builder(
+          itemCount: WorkLocation[value].answerCount.length ?? 0,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {
+                  print('tapped $index');
+                },
+                child: Container(
+                  color: (index % 2 == 0) ? Colors.grey[350] : Colors.white,
+                  // color: Colors.green[300],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        itemName(WorkLocation[value].answerCount[index]
+                            .ActualCityName ?? "", FontWeight.normal, index,
+                            false),
+                        itemName(WorkLocation[value].answerCount[index]
+                            .actualCount.toString() ?? "", FontWeight.normal,
+                            index, false),
+                      ],
+                    ),
+                  ),
+                ));
+          }
+      )
+      );
+    }
+     else if (value == 2){
+      int count = surveyDashboard.length;
+      if(count == 0) {
+        return Commonmethod.noRecordsFoundContainer("No Records Found");
+      }
+      return new Expanded(child:ListView.builder(
+          itemCount: surveyDashboard.length ?? 0,
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {
+                  print('tapped $index');
+                },
+                child: Container(
+                  color: (index%2==0)?Colors.grey[350] :Colors.white,
+                  // color: Colors.green[300],
+                  child:  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        itemName(surveyDashboard[index].Leadname ?? "",FontWeight.normal, index, false),
+                        itemName(surveyDashboard[index].NotCompletedCount.toString() ?? "",FontWeight.normal, index, false),
+                        itemName(surveyDashboard[index].CompletedCount.toString(),FontWeight.normal, index, false),
+                        itemName(surveyDashboard[index].Totalresource.toString(),FontWeight.normal, index, false),
+                      ],
+                    ),
+                  ),
+                ));
+          }
+      )
+      );
+    }
+  }
+  // color: (index%2==0)?Colors.grey[350] :Colors.white,
+  Widget itemName(String title, FontWeight fontWeight, int index, bool makeBold) {
+    FontWeight textWeight;
+    if(index == 0 && makeBold){
+      textWeight = FontWeight.bold;
+    }else{
+      textWeight = fontWeight;
+    }
+
+
+    Widget column = Expanded(
+      child: Column(
+        children: <Widget>[
+          Text(title, style: TextStyle(fontSize: 16, fontWeight: textWeight), textAlign: TextAlign.center,),
+        ],
+      ),
+    );
+    return column;
+  }
+
+  Widget HeadeName(String name, FontWeight fontWeight, int index, bool makeBold){
+    FontWeight textWeight;
+    if(index == 0 && makeBold){
+      textWeight = FontWeight.bold;
+    }else{
+      textWeight = fontWeight;
+    }
+    Widget secondaryLeadName = Expanded(
+      child: Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(name, style: TextStyle(fontSize: 16, fontWeight: textWeight), textAlign: TextAlign.center,)
+        ],
+      ),
+    );
+    return secondaryLeadName;
+  }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+}
+
+
