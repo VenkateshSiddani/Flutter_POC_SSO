@@ -1,0 +1,15 @@
+{
+  "client_id" : "b2f8bc7b-6813-4ac6-af1b-73059ebd8e3e",
+  "authorization_user_agent" : "DEFAULT",
+  "redirect_uri" : "msauth://com.cognizant.aid/ga0RGNYHvNM5d0SLGQfpQWAPGJ8%3D",
+  "broker_redirect_uri_registered": false,
+  "authorities" : [
+    {
+      "type": "AAD",
+      "audience": {
+        "type": "AzureADMyOrg",
+        "tenant_id": "038ea705-0f7a-4d17-b5d2-689af5a0aa13"
+      }
+    }
+  ]
+}

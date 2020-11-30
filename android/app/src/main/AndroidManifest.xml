@@ -8,6 +8,8 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <!-- Required permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -44,6 +46,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- Must be specified to allow users to login via MSAL -->
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--
+                    Add in your scheme/host from registered redirect URI
+                    note that the leading "/" is required for android:path
+                -->
+                <data
+                    android:host="com.cognizant.aid"
+                    android:path="/ga0RGNYHvNM5d0SLGQfpQWAPGJ8="
+                    android:scheme="msauth" />
             </intent-filter>
         </activity>
     </application>

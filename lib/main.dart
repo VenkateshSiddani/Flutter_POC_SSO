@@ -13,13 +13,22 @@ import 'package:keyboard_avoider/keyboard_avoider.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:aad_oauth/aad_oauth.dart';
 import 'package:aad_oauth/model/config.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
   // HttpOverrides.global = new MyHttpOverrides();
   // ignore: invalid_use_of_visible_for_testing_member
   SharedPreferences.setMockInitialValues({});
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(new MyApp());
+
 }
+
+
 
 class Post {
   final String associateID;
@@ -69,25 +78,6 @@ class MenuIcons{
 }
 
 Future<Post> createPost(String url, {Map body}) async {
-
-  // var data = { 'title' : 'My first post' };
-  // HttpRequest.request(
-  //     'https://jsonplaceholder.typicode.com/posts',
-  //     method: 'POST',
-  //     sendData: json.encode(data),
-  //     requestHeaders: {
-  //       'Content-Type': 'application/json; charset=UTF-8'
-  //     }
-  // )
-  //     .then((resp) {
-  //   print(resp.responseUrl);
-  //   print(resp.responseText);
-  // });
-
-  // HttpClient client = new HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
-
-  // client.badCertificateCallback =
-  // return http.post(url)
   return http.post(url, body: body,).then((http.Response response) {
     final int statusCode = response.statusCode;
 
@@ -97,61 +87,6 @@ Future<Post> createPost(String url, {Map body}) async {
     }
     return Post.fromJson(json.decode(response.body));
   });
-
-  // *     HttpClientRequest request = ...
-  // *     request.headers.contentType
-  // *         = new ContentType("application", "json", charset: "utf-8");
-  // *     request.write(...);
-
-  // HttpClient client = new HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
-  // client.postUrl(Uri.parse(url))
-  //     .then((HttpClientRequest request) {
-  //   request.headers.set(HttpHeaders.contentTypeHeader, "application/json");
-  //   request.write(body);
-  //   return request.close();
-  // })
-  //     .then((HttpClientResponse response) {
-  //   // Process the response.
-  //   final int statusCode = response.statusCode;
-  //
-  //   print(http.Response);
-  //   if (statusCode < 200 || statusCode > 400 || json == null || statusCode == 302) {
-  //     throw new Exception("Error while fetching data");
-  //   }
-  //   response.transform(utf8.decoder).listen((contents) {
-  //     // handle data
-  //     print(contents);
-  //     return Post();
-  //   });
-  //   // return Post.fromJson(json.decode(response.body));
-  // });
-
-
-  // final client = new HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
-  // final request = await client.postUrl(Uri.parse(url));
-  // request.headers.set(HttpHeaders.contentTypeHeader, "application/json; charset=UTF-8");
-  // request.write(json.encode(body));
-  //
-  // HttpClientResponse response = await request.close();
-  //
-  // final int statusCode = response.statusCode;
-  //
-  // print(http.Response);
-  // if (statusCode < 200 || statusCode > 400 || json == null || statusCode == 302) {
-  //   throw new Exception("Error while fetching data");
-  // }
-  // // return Post.fromJson(response);
-  // var response1 = "";
-  // await response.transform(utf8.decoder).listen((responseBody) {
-  //    response1 = responseBody;
-  // });
-  //
-  // // return Post.fromJson(json.decode(responseBody));
-  //
-  // return Post.fromJson(json.decode(response1)) ;
-  //
-  // }));
-  // final response = await request.close();
 }
 
 
@@ -159,12 +94,8 @@ Future<Post> createPost(String url, {Map body}) async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-
-
   final Future<Post> post;
   MyApp({Key key, this.post}) : super(key: key);
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -207,9 +138,6 @@ class _MyHomePageState extends State<MyHomePage> {
     var screenSize = MediaQuery.of(context).size;
     var rectSize =  Rect.fromLTWH(0.0, 25.0, screenSize.width, screenSize.height - 25);
     oauth.setWebViewScreenSize(rectSize);
-
-//creating a Associate id text field
-
     final associateidField = TextField(
       controller: associateTextController,
       //secured field true or false
@@ -470,24 +398,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void login() async {
-    try {
-      await oauth.login();
-      String accessToken = await oauth.getAccessToken();
-      showMessage("Logged in successfully, your access token: $accessToken");
+    FirebaseCrashlytics.instance.crash();
 
-//       List<MenuIcons> MenuIconsBasedRole = List();
-//       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
-//       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
-//       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
-//       Navigator.push(
-//           context,
-//           MaterialPageRoute(
-//             builder: (context) => Menu(accessToken: '', roles: [], employeeID: '', profileName: '', userDetails: null, menuIcons: MenuIconsBasedRole,),
-// //                        builder: (context) => Menu(),
-//           ));
-    } catch (e) {
-      showError(e);
-    }
+//     try {
+//       await oauth.login();
+//       String accessToken = await oauth.getAccessToken();
+//       showMessage("Logged in successfully, your access token: $accessToken");
+//
+// //       List<MenuIcons> MenuIconsBasedRole = List();
+// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
+// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
+// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
+// //       Navigator.push(
+// //           context,
+// //           MaterialPageRoute(
+// //             builder: (context) => Menu(accessToken: '', roles: [], employeeID: '', profileName: '', userDetails: null, menuIcons: MenuIconsBasedRole,),
+// // //                        builder: (context) => Menu(),
+// //           ));
+//     } catch (e) {
+//       showError(e);
+//     }
   }
   void showError(dynamic ex) {
     showMessage(ex.toString());

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>876184033027-ba17aigi9eabeelp7od1154l8ke47mg8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.876184033027-ba17aigi9eabeelp7od1154l8ke47mg8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB_b0uZHMQ_fOBLfXNTeLCHbcr35A0JhaM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>876184033027</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cognizantenterprisemobility.AID</string>
+	<key>PROJECT_ID</key>
+	<string>aid-crashlytics</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aid-crashlytics.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:876184033027:ios:596364a8cf94daa4347b36</string>
+	<key>DATABASE_URL</key>
+	<string>https://aid-crashlytics.firebaseio.com</string>
+</dict>
+</plist>

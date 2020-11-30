@@ -23,9 +23,12 @@ if (flutterVersionName == null) {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.microsoft.intune.mam'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.firebase.crashlytics' // Firebase Crashlytics
+apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -52,6 +55,15 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+//    buildscript {
+//        repositories {
+//            jcenter()
+//        }
+//        dependencies {
+//            classpath "org.javassist:javassist:3.22.0-GA"
+//            classpath files("libs/GradlePlugin/com.microsoft.intune.mam.build.jar")
+//        }
+//    }
 }
 allprojects {
     repositories {
@@ -72,7 +84,7 @@ flutter {
 }
 
 dependencies {
-//    implementation files('libs/Microsoft.Intune.MAM.SDK-javadoc.jar')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
@@ -80,9 +92,22 @@ dependencies {
     // Include the MAM SDK
     implementation files("libs/Microsoft.Intune.MAM.SDK.aar")
     implementation files("libs/Microsoft.Intune.MAM.SDK-javadoc.jar")
-
+    implementation files("libs/javassist.jar")
     // Include MSAL
     implementation 'com.microsoft.identity.client:msal:2.0.2'
+
+    // Adding Firebase Crashlytics SDK
+    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
 }
 
+intunemam {
+    excludeProjects = [':product:FooLib']
+    includeExternalLibraries = ['bar.jar', "com.contoso.foo:zap-artifact", "com.microsoft.*", "!com.microsoft.qux*"]
+    excludeClasses = ['com.contoso.SplashActivity']
+    excludeVariants=['savory']
+}
+task prepareKotlinBuildScriptModel {
 
+}

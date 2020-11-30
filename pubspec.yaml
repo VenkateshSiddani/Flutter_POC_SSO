@@ -53,6 +53,9 @@ dependencies:
   horizontal_data_table: ^1.0.6+3
   aad_oauth: 0.1.9
   flutter_webview_plugin: ^0.3.11
+  firebase_core: "^0.5.2+1"
+  firebase_crashlytics: "^0.2.3+1"
+
 #  timezone: ^0.5.7 # World Clock TimeZone
 #  date_format: ^1.0.8
 

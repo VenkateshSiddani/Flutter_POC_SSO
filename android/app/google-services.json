@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "876184033027",
+    "firebase_url": "https://aid-crashlytics.firebaseio.com",
+    "project_id": "aid-crashlytics",
+    "storage_bucket": "aid-crashlytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876184033027:android:78f0dcc994d9d563347b36",
+        "android_client_info": {
+          "package_name": "com.cognizant.aid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876184033027-0immpd23rf13qdjai214attru6vat9iq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cognizant.aid",
+            "certificate_hash": "4f3a7d2bf3f7cd328fd876041c748f4c0d7fe7c8"
+          }
+        },
+        {
+          "client_id": "876184033027-heqcpf31rheogi3hajp9kbsuirbujabn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATRmckTy47NWUpg7ZSj0a0kKMV39xyxxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876184033027-heqcpf31rheogi3hajp9kbsuirbujabn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "876184033027-ba17aigi9eabeelp7od1154l8ke47mg8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cognizantenterprisemobility.AID"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
