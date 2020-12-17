@@ -7,8 +7,10 @@
  * See LICENSE for distribution and usage details.
  */
 
+import 'package:aid/FeedBack/FeedbackAPI.dart';
 import 'package:aid/Menu.dart';
 import 'package:aid/Survey/SurveyViewController.dart';
+import 'package:aid/VoiceOfAnAbbottian//VoiceofanAbbottianViewController.dart';
 
 /// Alert types
 enum AlertType { error, success, info, warning, profile, none }
@@ -28,8 +30,8 @@ enum AnimationType {
 // const kSpotLightFolderURForProd = 'http://10.142.130.86';
 
 
-// const kBaseURL = 'https://aid.cognizant.com/webapi/api';
-// const kSpotLightFolder = 'https://aid.cognizant.com';
+// const kBaseURL = 'http://aid.cognizant.com/webapi/api';
+// const kSpotLightFolder = 'http://aid.cognizant.com';
 
 //DEv
 
@@ -97,6 +99,16 @@ const WORKLOCATION_DASHBOARD_SURVEY = '${kBaseURL}/Survey/GetSurveyDetails?surve
 const CAB_DASHBOARD_SURVEYSTATISTICS = '${kBaseURL}/Survey/GetSurveyStatistict?surveyID=1';
 
 
+//Voice of An Abbottian
+const VOICE_ABBOTTIAN = '${kBaseURL}/ResourceProfile/GetVoiceOfAbbottian?empID=';
+const VOICE_ALLEMPLOYEES = '${kBaseURL}/EmpActiveLead/GetEmployeeListForVoice';
+const VOICE_SUBMIT = '${kBaseURL}/ResourceProfile/SubmitVoiceOfAbbottian';
+
+
+//Feedback
+const FEEDBACK_MODULES = '${kBaseURL}/Feedback/GetModuleDetails?empid=';
+const SUBMIT_FEEDBACK = '${kBaseURL}/Feedback/SaveFeedbackDetails';
+
 /// Library images path
 const String kImagePath = "Assets";
 
@@ -107,6 +119,8 @@ const String TRAININGS = "Trainings";
 const String SURVEY_MODULE = "Survey Module";
 const String CAB_DASHBOARD = "Cab Dashboard";
 const String WORK_DASHBOARD = "Work Location Dashboard";
+const String VOICE_MODULE = "Voice of an Abbottian";
+const String FEEDBACK_MODULE = "Feedback";
 
 
 // Time Zone
@@ -127,4 +141,7 @@ const CANADA_TIMEZONE = "America/Regina";
 //Messages
 const CONNECTIVITY_ERROR = "Please check the interenet connection";
 const SOCKET_EXCEPTION_ERROR = "Connect VPN and try again";
+
+//Santosh Image
+const SANTOSH_IMAGE_URL = "https://aid.cognizant.com/assets/img/profile/6e72e10b-95d9-4a21-a20f-85ec8da93f48.jpg";
 

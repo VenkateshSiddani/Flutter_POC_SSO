@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'CommonMethods.dart';
 import 'Menu.dart';
 import 'package:flutter/services.dart';
 import 'constants.dart';
@@ -17,13 +18,13 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  // HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = new MyHttpOverrides();
   // ignore: invalid_use_of_visible_for_testing_member
   SharedPreferences.setMockInitialValues({});
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   runApp(new MyApp());
 
 }
@@ -184,105 +185,110 @@ class _MyHomePageState extends State<MyHomePage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: ()
+        // for SSO enable below line
+        // async{
+        //   login();
+        // },
         async{
-          login();
+
+          bool valid=validateInputs(associateTextController.text, passwordTextController.text);
+          if(valid== true) {
+            Post newPost = new Post(
+                associateID: associateTextController.text,
+                password: passwordTextController.text);
+
+            try {
+              var connectivityResult = await (Connectivity().checkConnectivity());
+              if (connectivityResult == ConnectivityResult.none)  {
+                _showDialog(CONNECTIVITY_ERROR, "AID");
+                return;
+              }
+              setState(() {
+                _load = true;
+              });
+              // Post p = await createPost(CREATE_LOGIN_URL,
+                  // body: newPost.toMap());
+
+              createPost(CREATE_LOGIN_URL, body: newPost.toMap()).then((response) {
+                if (response.message== "Success")
+                {
+                  setState(() {
+                    _load = false;
+                  });
+                  final int EmployeeID = response.json['UserName']['EmployeeId'];
+                  final List<dynamic> roles =  response.json['UserName']['roles'];
+                  final String profileName = response.json['UserName']['FirstName'] + ' ' + response.json['UserName']['LastName'];
+                  final String ProfileImage = response.json["ProfileImage"];
+                  final List<dynamic> menusResponse =  response.json['UserName']['Menus'];
+
+                  Singleton.profileURL = response.json["ProfileImage"];
+                  List<Map<String, dynamic>> menuTitles = [{'Title':'Survey','Icon':'Assets/MenuIcons/Survey.png'},
+                    {'Title':'World Time','Icon':'Assets/MenuIcons/World_Clock.png'},
+                    {'Title':'Spot Light','Icon':'Assets/MenuIcons/Spotlight.png'},
+                    {'Title':'Diversity Module','Icon':'Assets/MenuIcons/Diversity.png'},
+                    {'Title':'Milestone','Icon':'Assets/MenuIcons/Calendar.png'},
+                    {'Title':'Training','Icon':'Assets/MenuIcons/Training.png'},
+                  {'Title':'Voice of an Abbottian','Icon':'Assets/VOAbottian/Email.png'}];
+
+                  List<MenuIcons> MenuIconsBasedRole = List();
+                  menusResponse.forEach((menu) {
+                    var assetPath = 'Assets/AID_Logo.png';
+                    if( menu['label'] == 'Survey') {
+                      assetPath =  'Assets/MenuIcons/Survey.png';
+                    } else if( menu['label'] == 'World Clock') {
+                      assetPath =  'Assets/MenuIcons/World_Clock.png';
+                    } else if( menu['label'] == 'Spotlight') {
+                      assetPath =  'Assets/MenuIcons/Spotlight.png';
+                    }else if( menu['label'] == 'Diversity Dashboard') {
+                      assetPath =  'Assets/MenuIcons/Diversity.png';
+                    }else if( menu['label'] == 'Milestones') {
+                      assetPath =  'Assets/MenuIcons/Calendar.png';
+                    }else if( menu['label'] == 'Training') {
+                      assetPath =  'Assets/MenuIcons/Training.png';
+                    }else if( menu['label'] == 'Voice of an Abbottian') {
+                      assetPath =  'Assets/VOAbottian/Email.png';
+                    }
+                    MenuIconsBasedRole.add(MenuIcons(menuTitle: menu['label'], assetPath: assetPath));
+                  });
+
+                  // List<MenuIcons> MenuIconsBasedRole = List();
+                  // MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
+                  // MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
+                  // MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Menu(accessToken: response.accessToken, roles: roles, employeeID: EmployeeID.toString(), profileName: profileName, userDetails: response.userDetails, menuIcons: MenuIconsBasedRole, ProfileImage: ProfileImage,),
+//                        builder: (context) => Menu(),
+                      ));
+                }
+                else {
+                  setState(() {
+                    _load = false;
+                  });
+                  _showDialog(response.message, "AID");
+                }
+              });
+
+            } on SocketException catch (_) {
+              // print('not connected');
+              setState(() {
+                _load = false;
+              });
+              _showDialog(SOCKET_EXCEPTION_ERROR, "AID");
+
+            }
+
+          }
+          else
+          {
+            setState(() {
+              _load = false;
+            });
+            print("fail");
+          }
+          //print(p.title);
         },
-//         async{
-//
-//           bool valid=validateInputs(associateTextController.text, passwordTextController.text);
-//           if(valid== true) {
-//             Post newPost = new Post(
-//                 associateID: associateTextController.text,
-//                 password: passwordTextController.text);
-//
-//             try {
-//               var connectivityResult = await (Connectivity().checkConnectivity());
-//               if (connectivityResult == ConnectivityResult.none)  {
-//                 _showDialog(CONNECTIVITY_ERROR, "AID");
-//                 return;
-//               }
-//               setState(() {
-//                 _load = true;
-//               });
-//               // Post p = await createPost(CREATE_LOGIN_URL,
-//                   // body: newPost.toMap());
-//
-//               createPost(CREATE_LOGIN_URL, body: newPost.toMap()).then((response) {
-//                 if (response.message== "Success")
-//                 {
-//                   setState(() {
-//                     _load = false;
-//                   });
-//                   final int EmployeeID = response.json['UserName']['EmployeeId'];
-//                   final List<dynamic> roles =  response.json['UserName']['roles'];
-//                   final String profileName = response.json['UserName']['FirstName'] + ' ' + response.json['UserName']['LastName'];
-//
-//                   final List<dynamic> menusResponse =  response.json['UserName']['Menus'];
-//
-//                   // List<Map<String, dynamic>> menuTitles = [{'Title':'Survey','Icon':'Assets/MenuIcons/Survey.png'},
-//                   //   {'Title':'World Time','Icon':'Assets/MenuIcons/World_Clock.png'},
-//                   //   {'Title':'Spot Light','Icon':'Assets/MenuIcons/Spotlight.png'},
-//                   //   {'Title':'Diversity Module','Icon':'Assets/MenuIcons/Diversity.png'},
-//                   //   {'Title':'Milestone','Icon':'Assets/MenuIcons/Calendar.png'},
-//                   //   {'Title':'Training','Icon':'Assets/MenuIcons/Training.png'}];
-//
-//                   // List<MenuIcons> MenuIconsBasedRole = List();
-//                   // menusResponse.forEach((menu) {
-//                   //   var assetPath = 'Assets/AID_Logo.png';
-//                   //   if( menu['label'] == 'Survey') {
-//                   //     assetPath =  'Assets/MenuIcons/Survey.png';
-//                   //   } else if( menu['label'] == 'World Clock') {
-//                   //     assetPath =  'Assets/MenuIcons/World_Clock.png';
-//                   //   } else if( menu['label'] == 'Spotlight') {
-//                   //     assetPath =  'Assets/MenuIcons/Spotlight.png';
-//                   //   }else if( menu['label'] == 'Diversity Dashboard') {
-//                   //     assetPath =  'Assets/MenuIcons/Diversity.png';
-//                   //   }else if( menu['label'] == 'Milestones') {
-//                   //     assetPath =  'Assets/MenuIcons/Calendar.png';
-//                   //   }else if( menu['label'] == 'Training') {
-//                   //     assetPath =  'Assets/MenuIcons/Training.png';
-//                   //   }
-//                   //   MenuIconsBasedRole.add(MenuIcons(menuTitle: menu['label'], assetPath: assetPath));
-//                   // });
-//
-//                   List<MenuIcons> MenuIconsBasedRole = List();
-//                   MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
-//                   MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
-//                   MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
-//                   Navigator.push(
-//                       context,
-//                       MaterialPageRoute(
-//                         builder: (context) => Menu(accessToken: response.accessToken, roles: roles, employeeID: EmployeeID.toString(), profileName: profileName, userDetails: response.userDetails, menuIcons: MenuIconsBasedRole,),
-// //                        builder: (context) => Menu(),
-//                       ));
-//                 }
-//                 else {
-//                   setState(() {
-//                     _load = false;
-//                   });
-//                   _showDialog(response.message, "AID");
-//                 }
-//               });
-//
-//             } on SocketException catch (_) {
-//               // print('not connected');
-//               setState(() {
-//                 _load = false;
-//               });
-//               _showDialog(SOCKET_EXCEPTION_ERROR, "AID");
-//
-//             }
-//
-//           }
-//           else
-//           {
-//             setState(() {
-//               _load = false;
-//             });
-//             print("fail");
-//           }
-//           //print(p.title);
-//         },
 
         child: Text(
           "Login",
@@ -398,26 +404,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void login() async {
-    FirebaseCrashlytics.instance.crash();
+    // FirebaseCrashlytics.instance.crash();
 
-//     try {
-//       await oauth.login();
-//       String accessToken = await oauth.getAccessToken();
-//       showMessage("Logged in successfully, your access token: $accessToken");
-//
-// //       List<MenuIcons> MenuIconsBasedRole = List();
-// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
-// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
-// //       MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
-// //       Navigator.push(
-// //           context,
-// //           MaterialPageRoute(
-// //             builder: (context) => Menu(accessToken: '', roles: [], employeeID: '', profileName: '', userDetails: null, menuIcons: MenuIconsBasedRole,),
-// // //                        builder: (context) => Menu(),
-// //           ));
-//     } catch (e) {
-//       showError(e);
-//     }
+    try {
+      await oauth.login();
+      String accessToken = await oauth.getAccessToken();
+      showMessage("Logged in successfully, your access token: $accessToken");
+
+      List<MenuIcons> MenuIconsBasedRole = List();
+      MenuIconsBasedRole.add(MenuIcons(menuTitle: 'World Clock', assetPath: 'Assets/MenuIcons/World_Clock.png'));
+      MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Spotlight', assetPath: 'Assets/MenuIcons/Spotlight.png'));
+      MenuIconsBasedRole.add(MenuIcons(menuTitle: 'Training', assetPath: 'Assets/MenuIcons/Training.png'));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Menu(accessToken: '', roles: [], employeeID: '', profileName: '', userDetails: null, menuIcons: MenuIconsBasedRole,),
+//                        builder: (context) => Menu(),
+          ));
+    } catch (e) {
+      showError(e);
+    }
   }
   void showError(dynamic ex) {
     showMessage(ex.toString());
@@ -428,21 +434,21 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-// class MyHttpOverrides extends HttpOverrides{
-//   @override
-//   HttpClient createHttpClient(SecurityContext context){
-//     return super.createHttpClient(context)
-//       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
-//   }
-//   static Future<HttpClient> getHttpClient(String userName, String password) async {
-//     HttpClient client = new HttpClient()
-//       ..badCertificateCallback =
-//       ((X509Certificate cert, String host, int port) => true);
-//     client.authenticate = (uri, scheme, realm) {
-//       client.addCredentials(
-//           uri, realm, new HttpClientDigestCredentials(userName, password));
-//       return new Future.value(true);
-//     };
-//     return client;
-//   }
-// }
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+  static Future<HttpClient> getHttpClient(String userName, String password) async {
+    HttpClient client = new HttpClient()
+      ..badCertificateCallback =
+      ((X509Certificate cert, String host, int port) => true);
+    client.authenticate = (uri, scheme, realm) {
+      client.addCredentials(
+          uri, realm, new HttpClientDigestCredentials(userName, password));
+      return new Future.value(true);
+    };
+    return client;
+  }
+}

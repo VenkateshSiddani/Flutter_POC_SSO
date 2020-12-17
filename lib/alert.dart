@@ -27,6 +27,7 @@ class Alert {
   final Image image;
   final String title;
   final String desc;
+  final String imageURL;
   final Widget content;
   final List<DialogButton> buttons;
   final Function closeFunction;
@@ -48,7 +49,8 @@ class Alert {
     this.buttons,
     this.closeFunction,
     this.textFieldController,
-    this.acessToken
+    this.acessToken,
+    this.imageURL
   });
 
   /// Displays defined alert window
@@ -381,7 +383,17 @@ class Alert {
         // );
         // response = Image.network("https://aid.cognizant.com/assets/img/profile/fbd976b9-f3f6-416d-88d6-60b05caa6d31.jpg");
         // final client = new HttpClient()..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
-        return Image.network("https://aid.cognizant.com/assets/img/profile/fbd976b9-f3f6-416d-88d6-60b05caa6d31.jpg", headers: {"Authorization": "Bearer $accessToken"},);
+
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(1000.0),
+          child:  (imageURL.length > 0) ? Image.network(imageURL, headers: {"Authorization": "Bearer $accessToken"},) : Image.asset(
+          'Assets/profile_img.png',
+          fit: BoxFit.contain,
+        )
+        );
+
+
 
         break;
       case AlertType.none:

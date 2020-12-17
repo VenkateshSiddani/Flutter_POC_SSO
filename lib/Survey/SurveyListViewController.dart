@@ -15,10 +15,11 @@ import 'SurveyAPI.dart';
 
 
 class SurveyModule extends StatefulWidget {
-  SurveyModule({Key key, this.accessToken, this.employeeID}) : super(key: key);
+  SurveyModule({Key key, this.accessToken, this.employeeID, this.roles}) : super(key: key);
 
   final String accessToken;
   final String employeeID;
+  final List< dynamic> roles;
 
   @override
   _SurveModuleState createState() => new _SurveModuleState();
@@ -29,12 +30,21 @@ class _SurveModuleState extends State<SurveyModule> {
   String get employeeID => widget.employeeID;
   bool _load = false;
   bool _isAlertShows = false;
-
+  List< dynamic> get roles=> widget.roles;
   List<SurveyList> surveyList = List();
 
   @override
   Widget build(BuildContext context) {
 
+    int tiles = 1; // By default one dashborad should be there
+   final List<Tab> myTabs = <Tab>[];
+   myTabs.add(new Tab(text: 'My Survey',));
+   TabBarView tabBarViews = new TabBarView(children: [surveyDetailsUI()]); // By default one dash board shoul be there
+   if(roles.length > 0) {
+     tiles = 2;
+     myTabs.add(new Tab(text: 'Survey Dashboard',));
+     tabBarViews = new TabBarView(children: [surveyDetailsUI(),surveyDashboardUI(), ]);
+   }
     Widget loadingIndicator = _load ? new Container(
       color: Colors.grey[300],
       width: 70.0,
@@ -43,29 +53,28 @@ class _SurveModuleState extends State<SurveyModule> {
           child: new Center(child: new CircularProgressIndicator())),
     ) : new Container();
     return DefaultTabController(
-      length: 2,
+      length: tiles,
       child: new Scaffold(
         appBar: new AppBar(
           title: Text(SURVEY_MODULE),
           bottom: new TabBar(
-            tabs: [
-              new Tab(text: "My Survey",),
-              new Tab(text: "Survey Dashboard",),
-            ],
+            tabs: myTabs,
           ),
         ),
-        body: new TabBarView(children: [
-          surveyDetailsUI(),
-          surveyDetailsUI(),
-        ]),
+        body: new Stack(
+          children: [
+            tabBarViews,
+            new Align(
+              child: loadingIndicator, alignment: Alignment.center,
+            )
+          ],
+        )
 
       ),
     );
   }
 
-  // new Align(
-  // child: loadingIndicator, alignment: Alignment.center,
-  // )
+
   @override
   void initState() {
     super.initState();
@@ -78,7 +87,7 @@ class _SurveModuleState extends State<SurveyModule> {
     } else {
       surveyList.clear();
       getDetailsSurvey();
-      getCovid19DetailsSurvey();
+      // getCovid19DetailsSurvey(); -- Covid 19 survey app disabling
     }
   }
   Map<String, String> get headers => {
@@ -152,25 +161,29 @@ class _SurveModuleState extends State<SurveyModule> {
 
   Widget surveyDetailsUI() {
 
+    if(surveyList.length == 0) {
+      return Commonmethod.noRecordsFoundContainer("No Records Found");
+    }
+
     return new ListView.builder(itemCount: surveyList.length ?? 0,
         itemBuilder: (context, index) {
-        return  InkWell(
-          onTap: () {
-            print('tapped $index');
-            if(surveyList[index].surveyName == 'Cab Survey'){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context)  => CabDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
-            } else  if(surveyList[index].surveyName == 'Work Location'){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context)  => WorkLocationDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
-            }
-            else  if(surveyList[index].surveyName == 'COVID-19'){
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context)  => CovidDashboard(title: "Covid 19",)));
-            }
+          return  InkWell(
+            onTap: () {
+              print('tapped $index');
+              // if(surveyList[index].surveyName == 'Cab Survey'){
+              //   Navigator.push(context, MaterialPageRoute(
+              //       builder: (context)  => CabDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
+              // } else  if(surveyList[index].surveyName == 'Work Location'){
+              //   Navigator.push(context, MaterialPageRoute(
+              //       builder: (context)  => WorkLocationDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
+              // }
+              // else  if(surveyList[index].surveyName == 'COVID-19'){
+              //   Navigator.push(context, MaterialPageRoute(
+              //       builder: (context)  => CovidDashboard(title: "Covid 19",)));
+              // }
 
-          },
-          child: Expanded(
+            },
+            // child: Expanded(
             child: Card(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -183,7 +196,7 @@ class _SurveModuleState extends State<SurveyModule> {
                       children: <Widget>[
                         _ThumbnailImage(surveyList[index].imageName ?? "Assets/AID_Logo.png"),
                         SizedBox(width: 20,),
-                        _rightSideWidget(surveyList[index].surveyName ?? "", surveyList[index].surveyStatusName ?? "",surveyList[index].CompletedOn ?? "")
+                        _rightSideWidget(surveyList[index].surveyName ?? "", surveyList[index].surveyStatusName ?? "","Completed on ${Commonmethod.convertDateToDefaultFomrate(surveyList[index].CompletedOn)}" ?? "")
                       ],
                     ),
                     Row(
@@ -198,7 +211,76 @@ class _SurveModuleState extends State<SurveyModule> {
                 ),
               ),
             ),
-          ),
+            // ),
+          );
+        });
+  }
+
+
+  Widget surveyDashboardUI() {
+
+    List<dynamic> cabLead =  roles.where((x) =>
+        x["Name"].contains("CabLead")).toList();
+    //
+    // List<dynamic> primaryLead = roles.where((x) =>
+    //     x["Name"].contains("PrimaryLead")).toList();
+
+    List<SurveyList> surveyDashboard = [];
+
+    if(cabLead.length == 1) {
+      surveyDashboard.add(SurveyList(surveyID:0 , surveyDetailsID:0, surveyName:"Cab Survey Dashboard" , surveyDesc:"Cab Survey" , surveyStartDate: "", surveyEndDate:"" , surveyStatusID: 0 , surveyStatusName:"" , CompletedOn: "", imageName: 'Assets/Survey/CabSurvey.png'));
+    }else { // Treat as a primary lead and showing everything in dashboard
+      surveyDashboard.add(SurveyList(surveyID:0 , surveyDetailsID:0, surveyName:"Cab Survey Dashboard" , surveyDesc:"Cab Survey" , surveyStartDate: "", surveyEndDate:"" , surveyStatusID: 0 , surveyStatusName:"" , CompletedOn: "", imageName: 'Assets/Survey/CabSurvey.png'));
+      surveyDashboard.add(SurveyList(surveyID:0 , surveyDetailsID:0, surveyName:"Work Location Dashboard" , surveyDesc:"Work Location" , surveyStartDate: "", surveyEndDate:"" , surveyStatusID: 0 , surveyStatusName:"" , CompletedOn: "", imageName: 'Assets/Survey/WorkLocationImage.png'));
+
+    }
+
+    return new ListView.builder(itemCount: surveyDashboard.length ?? 0,
+        itemBuilder: (context, index) {
+        return  InkWell(
+          onTap: () {
+            print('tapped $index');
+            if(surveyDashboard[index].surveyName == 'Cab Survey Dashboard'){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context)  => CabDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
+            } else  if(surveyDashboard[index].surveyName == 'Work Location Dashboard'){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context)  => WorkLocationDashboardViewController(accessToken: accessToken, employeeID: employeeID,)));
+            }
+            else  if(surveyDashboard[index].surveyName == 'COVID-19'){
+              Navigator.push(context, MaterialPageRoute(
+                  builder: (context)  => CovidDashboard(title: "Covid 19",)));
+            }
+          },
+          // child: Expanded(
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        _ThumbnailImage(surveyDashboard[index].imageName ?? "Assets/AID_Logo.png"),
+                        SizedBox(width: 20,),
+                        _rightSideWidget(surveyDashboard[index].surveyName ?? "", surveyDashboard[index].surveyStatusName ?? "",surveyDashboard[index].CompletedOn ?? "")
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // add this
+                      children: <Widget>[
+                        Text('To view the records, Click'),
+                        // Spacer(),
+                        _viewButtonUI(),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          // ),
         );
      });
   }
@@ -261,7 +343,7 @@ class _SurveModuleState extends State<SurveyModule> {
            ),
          ),
           SizedBox(height: 5,),
-          Text("Completed on ${Commonmethod.convertDateToDefaultFomrate(Date)}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), textAlign: TextAlign.left,)
+          Text(Date, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal), textAlign: TextAlign.left,)
 
         ],
       ),
@@ -273,7 +355,7 @@ class _SurveModuleState extends State<SurveyModule> {
     return MergeSemantics(
       child: ListTile(
         title: Text('To view your submission, Click'),
-        trailing: _viewButtonUI(),
+        // trailing: _viewButtonUI(),
       ),
     );
   }

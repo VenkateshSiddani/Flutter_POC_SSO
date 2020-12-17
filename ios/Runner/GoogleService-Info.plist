@@ -6,6 +6,8 @@
 	<string>876184033027-ba17aigi9eabeelp7od1154l8ke47mg8.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.876184033027-ba17aigi9eabeelp7od1154l8ke47mg8</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>876184033027-0immpd23rf13qdjai214attru6vat9iq.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB_b0uZHMQ_fOBLfXNTeLCHbcr35A0JhaM</string>
 	<key>GCM_SENDER_ID</key>
@@ -29,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:876184033027:ios:596364a8cf94daa4347b36</string>
+	<string>1:876184033027:ios:3b5420fd1af725bd347b36</string>
 	<key>DATABASE_URL</key>
 	<string>https://aid-crashlytics.firebaseio.com</string>
 </dict>

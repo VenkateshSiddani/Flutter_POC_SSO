@@ -1,5 +1,7 @@
+import 'package:aid/FeedBack/FeedBackViewController.dart';
 import 'package:aid/PinLocations.dart';
 import 'package:aid/Trainings/TrainingViewControllerLead.dart';
+import 'package:aid/VoiceOfAnAbbottian/VoiceofanAbbottianViewController.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -257,8 +259,9 @@ class Menu extends StatefulWidget {
   final String profileName;
   final Map<String, dynamic> userDetails;
   final List< MenuIcons> menuIcons;
+  final String ProfileImage;
 
-  Menu({Key key, @required this.accessToken, @required this.roles, this.employeeID, this.profileName, this.userDetails, this.menuIcons}) : super(key: key);
+  Menu({Key key, @required this.accessToken, @required this.roles, this.employeeID, this.profileName, this.userDetails, this.menuIcons, this.ProfileImage}) : super(key: key);
 
   @override
   _MenuState createState() => _MenuState();
@@ -270,6 +273,7 @@ class _MenuState extends State<Menu> {
   String get accessTokenValue => widget.accessToken;
  List< dynamic> get roleValue=> widget.roles;
   String get employyeID => widget.employeeID;
+  String get ProfileImage => widget.ProfileImage;
   List<dynamic> menuTitleforadmin= [];
   Map<String, dynamic> get userDetails => widget.userDetails;
   List<String> projectSectionForAdmin= ["Active Run Projects", "Debt Management", "App Certification"];
@@ -387,7 +391,17 @@ class _MenuState extends State<Menu> {
            ));
          } else if(menuTitles[index].menuTitle == 'Survey') {
            Navigator.push(context, MaterialPageRoute(
-               builder: (context)  => SurveyModule(accessToken: accessTokenValue, employeeID: employyeID,)
+               builder: (context)  => SurveyModule(accessToken: accessTokenValue, employeeID: employyeID, roles: roleValue,)
+           ));
+         }
+         else if(menuTitles[index].menuTitle == 'Voice of an Abbottian') {
+           Navigator.push(context, MaterialPageRoute(
+               builder: (context)  => VoiceOfAnAbbottianViewController(accessToken: accessTokenValue, employeeID: employyeID,roles: roleValue, userDetails: userDetails,)
+           ));
+         }
+         else if(menuTitles[index].menuTitle == 'Feedback') {
+           Navigator.push(context, MaterialPageRoute(
+             builder: (context) => FeedBackViewController(accessToken: accessTokenValue, employeeID: employyeID, roles: roleValue, userDetails: userDetails,)
            ));
          }
          else if( menuTitles[index].menuTitle == 'Diversity Dashboard') {
@@ -1060,6 +1074,7 @@ class _MenuState extends State<Menu> {
       type: AlertType.profile,
       title: profileName,
       acessToken: accessTokenValue,
+      imageURL: ProfileImage,
       desc: "",
       buttons: [
         DialogButton(

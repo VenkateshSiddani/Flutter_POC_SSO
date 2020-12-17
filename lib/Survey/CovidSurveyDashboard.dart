@@ -62,7 +62,8 @@ class _CovidDashboardState extends State<CovidDashboard> {
       _getTitleItemWidget('Lead Name', 200),
       _getTitleItemWidget('Total Associates', 100),
       _getTitleItemWidget('AID Enabled Associates', 100),
-      _getTitleItemWidget1('jhfa',800),
+      _getTitleItemWidget1('1 December 2020',800),
+      _getTitleItemWidget1('2 December 2020',800),
     ];
   }
 
@@ -78,7 +79,7 @@ class _CovidDashboardState extends State<CovidDashboard> {
     );
   }
 
-  Widget _getTitleItemWidget1(String label, double width) {
+  Widget _getTitleItemWidget1(String dateLabel, double width) {
     // return Container(
     //   child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
     //   width: width,
@@ -100,7 +101,7 @@ class _CovidDashboardState extends State<CovidDashboard> {
       child: Column(
         children: <Widget>[
           Container(
-            child: Text('25-09-2020', style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text(dateLabel, style: TextStyle(fontWeight: FontWeight.bold)),
             width: 404,
             height: 39,
             padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
@@ -240,12 +241,12 @@ class _CovidDashboardState extends State<CovidDashboard> {
         Container(
           child: Row(
             children: <Widget>[
-              Icon(
-                  user.userInfo[index].status
-                      ? Icons.notifications_off
-                      : Icons.notifications_active,
-                  color: user.userInfo[index].status ? Colors.red : Colors
-                      .green),
+             // Icon(
+             //      user.userInfo[index].status
+             //          ? Icons.notifications_off
+             //          : Icons.notifications_active,
+             //      color: user.userInfo[index].status ? Colors.red : Colors
+             //          .green),
               Text(user.userInfo[index].status ? 'Disabled' : 'Active')
             ],
           ),
@@ -288,7 +289,7 @@ class User {
   void initData(int size) {
     for (int i = 0; i < size; i++) {
       _userInfo.add(UserInfo(
-          "User_$i", i % 3 == 0, '+001 9999 9999', '2019-01-01', 'N/A'));
+          "Name", i % 3 == 0, '', '', 'N/A'));
     }
   }
 

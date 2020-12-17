@@ -44,15 +44,15 @@ class _DiversityModuleState extends State<DiversityModule> {
   static List<DiversityImageModuleData> imageList  = new List();
   bool isAPILoads = false;
   List<Map<String, dynamic>> speachList = [{'ResourceID':597129,'Name':'Rathna Subashini Chinnappa','Message':'I am glad that, in Abbott, Women leaders play 1/3rd of the population. As an empowered part of the engagement, we feel an equal part in managing and delivering value to the customer as much as our male counterparts do. This has been only possible with self-motivated bunch of us who have been able to balance all the odd ships, work and life. Also for us to reach this heights, we have been fortunate to be working with people who collaborate, encourage and most importantly respect our contributions.'},
-    {'ResourceID':260211,'Name':'Sivasankari KA','Message':'I feel empowered when my leaders trust me, provide me key opportunities and make me accountable for deliveries which are critical and highly visible. Complete freedom is provided to women in Abbott account to drive and deliver results while adhering to the mandated compliance. Freedom to express our suggestions, complaints, career growth discussions at any time with leaders empowers us to stay focused, do our work better as well maintain good relationship with leadership.'},
-    {'ResourceID':249366,'Name':'Muthuvasanthkumar','Message':'It is great to have equal diversity as women thinking is always different in nature. They have proven that Men are part of Wo”Men”. We should give equal rights to everyone and there is no such any activity/task/work that can be handled by specific gender.\n\nOlder years, if there was a girl child born, society won’t accept her in anyway. Time changes and it corrected everyone and understood how they are important too. Nowadays if there is a daughter born, they are very pet to Dad’s compared to sons, which proves this fact.\nAgain older years, women was the one who took the responsibility of entire family well. Years passed by, they started taking responsibilities outside home as well.\nAs Women is being Empowered, it is time for Men to be competent with them.'},
-    {'ResourceID':438315,'Name':'Vinni Vincent','Message':'To me Diversity means bringing in a fresh array of perspective to the table. All should be provided space to grow, Feel accepted and at the same time be challenged. Diversity should not be just gender diversity, Its just inclusion of people from different background, thinking, culture etc. Abbott have a good diversity within itself already.'},
-    {'ResourceID':235555,'Name':'Sujeetha Babu', 'Message':' When it comes to jobs that doesn’t demand too much physical labor there is no need for a discrimination based on gender, all that matters is how well you manage your role. We have a history where it has always been the primary responsibility of the women to take care of the household. Now that the modern woman has proved themselves equally competent and smart in handling high positions in the society, the families and society have started to make way for women to succeed in their career paths. Women are blessed with supreme multitasking skills. All we need to ensure is to provide Equal opportunities for our women employees, provide them some space to design their schedules to seamlessly bring in work-life balance. I strongly believe that the only way to excel in your work is to give your 100% to it. It is equally important that you thoroughly enjoy every part of what you are doing, however big or small it is. Success will naturally follow.'},
-    {'ResourceID':64046,'Name':'Melvin George Thankachan', 'Message':'I’m not sure what is expected but what I say about Diversity is ‘Diversity isn’t something we have to look for explicitly. We evaluate and take the resources based on their capability rather than his/her gender, religion, race, age, ethnicity, sexual orientation etc. And diversity will be seen automatically’.'},
+    {'ResourceID':263812,'Name':'Sivasankari KA','Message':'I feel empowered when my leaders trust me, provide me key opportunities and make me accountable for deliveries which are critical and highly visible. Complete freedom is provided to women in Abbott account to drive and deliver results while adhering to the mandated compliance. Freedom to express our suggestions, complaints, career growth discussions at any time with leaders empowers us to stay focused, do our work better as well maintain good relationship with leadership.'},
+    {'ResourceID':235555,'Name':'Muthuvasanthkumar','Message':'It is great to have equal diversity as women thinking is always different in nature. They have proven that Men are part of Wo”Men”. We should give equal rights to everyone and there is no such any activity/task/work that can be handled by specific gender.\n\nOlder years, if there was a girl child born, society won’t accept her in anyway. Time changes and it corrected everyone and understood how they are important too. Nowadays if there is a daughter born, they are very pet to Dad’s compared to sons, which proves this fact.\nAgain older years, women was the one who took the responsibility of entire family well. Years passed by, they started taking responsibilities outside home as well.\nAs Women is being Empowered, it is time for Men to be competent with them.'},
+    {'ResourceID':260211,'Name':'Vinni Vincent','Message':'To me Diversity means bringing in a fresh array of perspective to the table. All should be provided space to grow, Feel accepted and at the same time be challenged. Diversity should not be just gender diversity, Its just inclusion of people from different background, thinking, culture etc. Abbott have a good diversity within itself already.'},
+    {'ResourceID':364046,'Name':'Sujeetha Babu', 'Message':' When it comes to jobs that doesn’t demand too much physical labor there is no need for a discrimination based on gender, all that matters is how well you manage your role. We have a history where it has always been the primary responsibility of the women to take care of the household. Now that the modern woman has proved themselves equally competent and smart in handling high positions in the society, the families and society have started to make way for women to succeed in their career paths. Women are blessed with supreme multitasking skills. All we need to ensure is to provide Equal opportunities for our women employees, provide them some space to design their schedules to seamlessly bring in work-life balance. I strongly believe that the only way to excel in your work is to give your 100% to it. It is equally important that you thoroughly enjoy every part of what you are doing, however big or small it is. Success will naturally follow.'},
+    {'ResourceID':438315,'Name':'Melvin George Thankachan', 'Message':'I’m not sure what is expected but what I say about Diversity is ‘Diversity isn’t something we have to look for explicitly. We evaluate and take the resources based on their capability rather than his/her gender, religion, race, age, ethnicity, sexual orientation etc. And diversity will be seen automatically’.'},
     {'ResourceID':595164,'Name':'Anusha Vinothkumar','Message':' I would like to start with a quote on Women empowerment - \nA woman is the full circle.. within her is the power to create, nurture and transform" \nBoth, Cognizant and Abbott have been keen in giving opportunities to voice over our opinion and has given space to take up new roles, equal to the men leads on the ground. This is really a healthy transformation that we are into.. I was part of Donna’s visit in 2016, I presented how BVM can help Abbott to achieve Business Outcomes, after which I am an Abbottian.. that was the best chance in my life to showcase my talent, and today I take care of BVM track of transformation for Abbott.. Thanks to Donna and Cognizant leadership for making me a small drop in this Ocean… Here we are given freedom to aspire on what we want to be.. I have been trained to understand how life Science industry currently works and with that knowledge I am able to deep dive on BVM use cases for Abbott, suggest the team few Business Cases. Last but not least, a real time statistics is the count of Abbott – Cognizant Women leaders. We were very few in number in 2016, now we have grown to a larger extent, to showcase our capabilities and work for the benefit of Abbott and Cognizant'},
-    {'ResourceID':553138,'Name':'Naveen Rex Xavier','Message':'I always believe that Diversity creates a positive working environment and they bring high value to the organization. In Abbott, we strongly believe and respect diversity at work which benefit the workplace more by creating a competitive edge and increasing work productivity. It is good to see that the management is taking diversity at work seriously across geographic locations by employing more women workforce thus creating increased employment opportunities and also bringing in outside-in perspective leading to innovations and adapting to fluctuating markets, customer demands and organizational growth.'},
-    {'ResourceID':395830,'Name':'Radhika Saravanan', 'Message': ' Women empowerment is all about creating an environment for women where they are bound to take their own decisions. Being independent of their own for themselves in all aspects. Women must possess self-worth, confidence and freedom to choose what they may with regard to their private and professional choices alike and should stimulate the confidence within themselves in order to seek equality in society\nMy thoughts on the above context: \nWomen shouldn’t underestimate their capabilities. We will have to accept the fact that women are just as competent as their male counterparts. First of all we should establish your credibility early on in your career by performing our duties and responsibilities to be a positive player. I personally believe that one should always aim high, work hard, and care deeply about what we believe in and support one another in all instances'},
-    {'ResourceID':263812,'Name':'Karthika Sivakumar','Message':'A workspace can be energetic and enthusiastic only when you have right people to recognize the talent and skills and not being biased. Abbott is one vast account which can make you feel more comfortable and confident to try and check things that run in your mind without any hesitation. It is always a great feeling when we are respected and valued for our contribution by the people around us. I am glad that we have such practical and generously thinking individuals in Abbott motivating each and everybody to reach new goals every day.'}];
+    {'ResourceID':249366,'Name':'Naveen Rex Xavier','Message':'I always believe that Diversity creates a positive working environment and they bring high value to the organization. In Abbott, we strongly believe and respect diversity at work which benefit the workplace more by creating a competitive edge and increasing work productivity. It is good to see that the management is taking diversity at work seriously across geographic locations by employing more women workforce thus creating increased employment opportunities and also bringing in outside-in perspective leading to innovations and adapting to fluctuating markets, customer demands and organizational growth.'},
+    {'ResourceID':553138,'Name':'Radhika Saravanan', 'Message': ' Women empowerment is all about creating an environment for women where they are bound to take their own decisions. Being independent of their own for themselves in all aspects. Women must possess self-worth, confidence and freedom to choose what they may with regard to their private and professional choices alike and should stimulate the confidence within themselves in order to seek equality in society\nMy thoughts on the above context: \nWomen shouldn’t underestimate their capabilities. We will have to accept the fact that women are just as competent as their male counterparts. First of all we should establish your credibility early on in your career by performing our duties and responsibilities to be a positive player. I personally believe that one should always aim high, work hard, and care deeply about what we believe in and support one another in all instances'},
+    {'ResourceID':395830,'Name':'Karthika Sivakumar','Message':'A workspace can be energetic and enthusiastic only when you have right people to recognize the talent and skills and not being biased. Abbott is one vast account which can make you feel more comfortable and confident to try and check things that run in your mind without any hesitation. It is always a great feeling when we are respected and valued for our contribution by the people around us. I am glad that we have such practical and generously thinking individuals in Abbott motivating each and everybody to reach new goals every day.'}];
 
   void fetchData() async {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -437,35 +437,31 @@ class _DiversityModuleState extends State<DiversityModule> {
   _circleImaeNetwrok(int resourceID){
 
      var image =  imageList.singleWhere((element) => element.resourceid == resourceID,orElse: () => null);
-      print(image);
-    // return Container(
-    //   child:  CircleAvatar(
-    //     radius: 125.0,
-    //     backgroundImage: AssetImage('Assets/profile_img.png'),
-    //     // backgroundImage:
-    //     // NetworkImage(image.Image),
-    //     backgroundColor: Colors.transparent,
-    //   ),
-        // child: CachedNetworkImage(
-        //   imageUrl: image.Image,
-        //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-        //       CircularProgressIndicator(value: downloadProgress.progress),
-        //   placeholder: (context, url) => {return NetworkImage('')},
-        //   errorWidget: (context, url, error) => Icon(Icons.error),
-        // )
-    //   margin: EdgeInsets.all(1.0),
-    //   decoration: BoxDecoration(
-    //       shape: BoxShape.circle
-    //   ),
-    //   child: FadeInImage.assetNetwork(
-    //     placeholder: 'Assets/profile_img.png',
-    //     image: image.Image ?? 'http://AID.cognizant.com/assets/img/profile/b30aba26-537e-4092-938d-f09640f4cd34.jpg',
-    // ),
-    // );
 
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10000.0),
+      child: CachedNetworkImage(
+        httpHeaders: {HttpHeaders.authorizationHeader: "Bearer $accessTokenValue"},
+        imageUrl: image.Image ?? "",
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            CircularProgressIndicator(value: downloadProgress.progress),
+        placeholder: (context, url) =>  CircleAvatar(
+          radius: 30.0,
+          backgroundImage: AssetImage('Assets/profile_img.png'),
+          backgroundColor: Colors.transparent,
+        ),
+        errorWidget: (context, url, error) => CircleAvatar(
+          radius: 30.0,
+          backgroundImage: AssetImage('Assets/profile_img.png'),
+          backgroundColor: Colors.transparent,
+        ),
+      ),
+    );
+
+     // Image.network(imageURL, headers: {"Authorization": "Bearer $accessToken"},)
      // return Image.network("http://aid.cognizant.com/assets/img/profile/fbd976b9-f3f6-416d-88d6-60b05caa6d31.jpg", headers: {HttpHeaders.authorizationHeader: "Bearer $accessTokenValue"},);
      // return Image.network("http://10.154.201.115/Images/avatar5.png",  headers: {HttpHeaders.authorizationHeader: "Bearer $accessTokenValue"});
-     return Image.network("https://homepages.cae.wisc.edu/~ece533/images/airplane.png",);
+     // return Image.network("https://homepages.cae.wisc.edu/~ece533/images/airplane.png",);
 
   }
   _message(int index) {

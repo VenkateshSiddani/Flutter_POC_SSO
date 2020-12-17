@@ -1,5 +1,8 @@
 
 
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -49,4 +52,38 @@ class Commonmethod {
       ),
     );
   }
+
+  static Widget getCircularImage(String urlString, String accessToken) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10000.0),
+      child: CachedNetworkImage(
+        httpHeaders: {HttpHeaders.authorizationHeader: "Bearer $accessToken"},
+        imageUrl: urlString ?? "",
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            CircularProgressIndicator(value: downloadProgress.progress),
+        placeholder: (context, url) =>  CircleAvatar(
+          radius: 30.0,
+          backgroundImage: AssetImage('Assets/profile_img.png'),
+          backgroundColor: Colors.transparent,
+        ),
+        errorWidget: (context, url, error) => CircleAvatar(
+          radius: 30.0,
+          backgroundImage: AssetImage('Assets/profile_img.png'),
+          backgroundColor: Colors.transparent,
+        ),
+      ),
+    );
+  }
+}
+
+class Singleton {
+  static Singleton _instance;
+  static String profileURL;
+  static String roleName;
+
+  Singleton._internal() {
+    _instance = this;
+  }
+
+  factory Singleton() => _instance ?? Singleton._internal();
 }

@@ -225,24 +225,44 @@ class _CabDashboardViewControllerState extends State<CabDashboardViewController>
                    mainAxisSize: MainAxisSize.max,
                    mainAxisAlignment: MainAxisAlignment.start,
                    children: <Widget>[
-
-                     SizedBox(height: 55.0, child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),
-                         itemBuilder: (context, index) {
-                           return Container(
-                             color : Colors.lightBlue[100],
-                             child: Padding(
-                               padding: const EdgeInsets.all(10.0),
-                               child: Row(
-                                 children: <Widget>[
-                                   HeadeName("Lead Name", FontWeight.bold, index, false),
-                                   itemName("Total", FontWeight.bold, index, false),
-                                   itemName("Not Completed", FontWeight.bold, index, false),
-                                   itemName("Completed", FontWeight.bold, index, false),
-                                 ],
+                     ConstrainedBox(
+                       constraints: BoxConstraints(maxHeight: 100, minHeight: 55),
+                       child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),shrinkWrap: true,
+                           itemBuilder: (context, index) {
+                             return Container(
+                               color : Colors.lightBlue[100],
+                               child: Padding(
+                                 padding: const EdgeInsets.all(10.0),
+                                 child: Row(
+                                   children: <Widget>[
+                                     HeadeName("Lead Name", FontWeight.bold, index, false),
+                                     itemName("Total", FontWeight.bold, index, false),
+                                     itemName("Not Completed", FontWeight.bold, index, false),
+                                     itemName("Completed", FontWeight.bold, index, false),
+                                   ],
+                                 ),
                                ),
-                             ),
-                           );
-                         })),
+                             );
+                           }),
+                     ),
+
+                     // SizedBox(height: 100.0, child: new ListView.builder( itemCount: 1, physics: const NeverScrollableScrollPhysics(),
+                     //     itemBuilder: (context, index) {
+                     //       return Container(
+                     //         color : Colors.lightBlue[100],
+                     //         child: Padding(
+                     //           padding: const EdgeInsets.all(10.0),
+                     //           child: Row(
+                     //             children: <Widget>[
+                     //               HeadeName("Lead Name", FontWeight.bold, index, false),
+                     //               itemName("Total", FontWeight.bold, index, false),
+                     //               itemName("Not Completed", FontWeight.bold, index, false),
+                     //               itemName("Completed", FontWeight.bold, index, false),
+                     //             ],
+                     //           ),
+                     //         ),
+                     //       );
+                     //     })),
                      cabDashboardList(value),
 //                      SizedBox(height: 20.0,),
                    ],

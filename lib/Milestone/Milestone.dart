@@ -398,7 +398,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                leading: _circleImaeNetwrok(),
+                leading: _circleImaeNetwrok(myWishesForBirthday[index].Image ?? ""),
                 title: Text(myWishesForBirthday[index].EmployeeName ?? ""),
                 subtitle: Text(
                     myWishesForBirthday[index].Comments ?? ""),
@@ -598,7 +598,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
             },
         child: Padding(
           padding: const EdgeInsets.all(0),
-          child: _eventCell(_selectedEvents[index].title.toString(), _selectedEvents[index].Type.toString(), _selectedEvents[index].DOB.toString()),
+          child: _eventCell(_selectedEvents[index].title.toString(), _selectedEvents[index].Type.toString(), _selectedEvents[index].DOB.toString(), _selectedEvents[index].Image.toString()),
 
           // child: _eventCell(event.toString()),
         ));
@@ -627,7 +627,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
       return descriptionMessage = "${descriptionMessage} Birthaday";
     }
   }
-  _eventCell(String title, String typeOfEvent, String DOB){
+  _eventCell(String title, String typeOfEvent, String DOB, String imageURL){
 
 
 
@@ -656,7 +656,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
     // );
     return Card(
       child: ListTile(
-        leading: _circleImaeNetwrok(),
+        leading: _circleImaeNetwrok(imageURL),
         title:  AutoSizeText(title, maxFontSize: 19.0,style: new TextStyle(fontSize: 19.0,fontWeight: FontWeight.w400, color: Colors.black),),
         subtitle: Text(getDescription(typeOfEvent, DOB)),
         trailing: _circleContaierForIndication(typeOfEvent),
@@ -674,6 +674,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
       title: event.title.toString(),
       textFieldController: _textFieldController, //as TextEditingController()
       desc: getDescription(event.Type.toString(), event.DOB.toString()),
+     imageURL:(event.Image != null) ? event.Image : "",
       closeFunction: cancelAlert,
       buttons: [
         DialogButton(
@@ -709,6 +710,7 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
           "Please enter comments", 'AID', context);
       return false;
     }
+    Navigator.of(context).pop(); // To exit the the alert send greeting window alert
     final sendWishParameters = jsonEncode({
       'EmployeeId':employeeID,
       'SubmitterId':submittedBy,
@@ -724,11 +726,11 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
       bool isSaved = await sendWishes(KSendGreetings, body: sendWishParameters, headers:headers );
       if (mounted && isSaved)
         setState(() {
-          Commonmethod.alertToShow("Data updated successfully", 'Success', context);
+          // Commonmethod.alertToShow("Data updated successfully", 'Success', context);
           _load = false;
         });
       else {
-        Commonmethod.alertToShow("Data not updated successfully", 'Error', context);
+        Commonmethod.alertToShow("Internal Server error. Please try again", 'Error', context);
         _load = false;
       }
       return isSaved;
@@ -831,9 +833,10 @@ class _MilestonePageState extends State<MilestonePage> with TickerProviderStateM
   // Text('Abbott Anniversary'),
   // _circleContaierForIndication("CTS"),
   // Text('CTS Anniversary'),
-  _circleImaeNetwrok(){
+  _circleImaeNetwrok(String profileURL){
     // var image =  imageList.singleWhere((element) => element.resourceid == resourceID,orElse: () => null);
     // print(image);
+    return Commonmethod.getCircularImage(profileURL, accessToken);
     return Container(
       child:  CircleAvatar(
         radius: 30.0,

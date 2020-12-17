@@ -59,7 +59,7 @@ class _EmployeeDefaulterViewControllerState extends State<EmployeeDefaulterViewC
                 ],
               ),
             ),
-            // data: MediaQuery.of(context).copyWith(textScaleFactor: 1.1),
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1.1),
           );
         }
     );

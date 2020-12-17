@@ -55,6 +55,11 @@ dependencies:
   flutter_webview_plugin: ^0.3.11
   firebase_core: "^0.5.2+1"
   firebase_crashlytics: "^0.2.3+1"
+  dropdownfield: ^0.0.2
+  flutter_swipe_action_cell: ^1.3.2
+  flutter_multiselect: ^0.5.1
+  flutter_gifimage: ^1.0.1
+  file_picker: ^2.1.4
 
 #  timezone: ^0.5.7 # World Clock TimeZone
 #  date_format: ^1.0.8
@@ -119,7 +124,12 @@ flutter:
     - Assets/Survey/CabSurvey.png
     - Assets/Survey/COVID19.png
     - Assets/Survey/WorkLocationImage.png
-
+    - Assets/Postcard.png
+    - Assets/VOAbottian/abbott.png
+    - Assets/VOAbottian/CTS.png
+    - Assets/VOAbottian/Postcard.png
+    - Assets/VOAbottian/postcard-animation.gif
+    - Assets/VOAbottian/Email.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

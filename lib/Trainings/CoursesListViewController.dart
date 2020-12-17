@@ -53,7 +53,7 @@ class _CoursesListViewControllerState extends State<CoursesListViewController> {
                 ],
               ),
             ),
-            // data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+            data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
           );
         }
     );

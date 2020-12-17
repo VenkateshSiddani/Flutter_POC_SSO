@@ -1008,21 +1008,21 @@ class _TrainingViewControllerLeadState extends State<TrainingViewControllerLead>
     if (_currentPageNotifier.value == 0){
       // fetchData(KGETCLIENTDASHBOARD_URL + employeeID);
       switch (_bIndex) {
-        case 0: fetchData(KGETCLIENTDASHBOARD_URL + employeeID, false, isSecondaryLead); break;
-        case 1: fetchData(KDEFAULTER_DISPLAYCLIENT + employeeID, true, isSecondaryLead); break;
-        case 2: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=0&max=8', true, isSecondaryLead); break;
-        case 3: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=7&max=16', true, isSecondaryLead);break;
-        case 4: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=15&max=100', true, isSecondaryLead); break;
-        case 5: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=15&max=100', true, isSecondaryLead); break;
+        case 0: fetchData(KGETCLIENTDASHBOARD_URL + employeeID + '&role=PrimaryLead', false, isSecondaryLead); break;
+        case 1: fetchData(KDEFAULTER_DISPLAYCLIENT + employeeID + '&role=PrimaryLead', true, isSecondaryLead); break;
+        case 2: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=0&max=8&role=PrimaryLead', true, isSecondaryLead); break;
+        case 3: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=7&max=16&role=PrimaryLead', true, isSecondaryLead);break;
+        case 4: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=15&max=100&role=PrimaryLead', true, isSecondaryLead); break;
+        case 5: fetchData(KFILTER_ASSOCIATES + employeeID + '&min=15&max=100&role=PrimaryLead', true, isSecondaryLead); break;
         default: break;
       }
     }else if (_currentPageNotifier.value == 1) {
       switch (_bIndex) {
-        case 0: fetchData(KCOGNIZANTDASHBOARD_URL + employeeID, false, isSecondaryLead); break;
-        case 1: fetchData(KDEFAULTER_DISPLAY + employeeID, true, isSecondaryLead); break;
-        case 2: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=R1&Remaindertype2=R1', true, isSecondaryLead); break;
-        case 3: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=R2&Remaindertype2=R3', true, isSecondaryLead); break;
-        case 4: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=E&Remaindertype2=E', true, isSecondaryLead); break;
+        case 0: fetchData(KCOGNIZANTDASHBOARD_URL + employeeID + '&role=PrimaryLead', false, isSecondaryLead); break;
+        case 1: fetchData(KDEFAULTER_DISPLAY + employeeID + '&role=PrimaryLead', true, isSecondaryLead); break;
+        case 2: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=R1&Remaindertype2=R1&role=PrimaryLead', true, isSecondaryLead); break;
+        case 3: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=R2&Remaindertype2=R3&role=PrimaryLead', true, isSecondaryLead); break;
+        case 4: fetchData(KREMIDER_1 + employeeID + '&Remaindertype1=E&Remaindertype2=E&role=PrimaryLead', true, isSecondaryLead); break;
         default: break;
       }
 

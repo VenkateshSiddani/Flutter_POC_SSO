@@ -50,7 +50,7 @@ public class MainActivity: FlutterActivity() {
 
 //      val mgr: MAMEnrollmentManager? = MAMComponents.get((MAMEnrollmentManager::class.java))
 //      mgr?.registerAuthenticationCallback(AuthenticationCallback(applicationContext));
-      onCreate()
+//      onCreate() -- Need to enable this line for intune
   }
 
   fun onCreate(){
