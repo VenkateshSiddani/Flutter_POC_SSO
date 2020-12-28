@@ -80,7 +80,7 @@ class Singleton {
   static Singleton _instance;
   static String profileURL;
   static String roleName;
-
+  static String feedBackIssuIDMessage;
   Singleton._internal() {
     _instance = this;
   }

@@ -27,8 +27,11 @@ class Alert {
   final Image image;
   final String title;
   final String desc;
+  final String secondTitle;
+  final String secondDesc;
   final String imageURL;
   final Widget content;
+  final Widget dropDownWidget;
   final List<DialogButton> buttons;
   final Function closeFunction;
   final TextEditingController textFieldController;
@@ -50,7 +53,10 @@ class Alert {
     this.closeFunction,
     this.textFieldController,
     this.acessToken,
-    this.imageURL
+    this.imageURL,
+    this.dropDownWidget,
+    this.secondDesc,
+    this.secondTitle
   });
 
   /// Displays defined alert window
@@ -97,10 +103,71 @@ class Alert {
     );
   }
 
-// // Will be added in next version.
-//   void dismiss() {
-//     Navigator.pop(context);
-//   }
+  /// Displays defined alert window
+  Future<bool> approveFeedbackAlert() async {
+    return await showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return _sendApprovalFeedBack();
+      },
+      barrierDismissible: style.isOverlayTapDismiss,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: style.overlayColor,
+      transitionDuration: style.animationDuration,
+      transitionBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+          ) =>
+          _showAnimation(animation, secondaryAnimation, child),
+    );
+  }
+
+
+  /// Displays defined alert window
+  Future<bool> devCompletedAlert() async {
+    return await showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return _devCompletedAlert();
+      },
+      barrierDismissible: style.isOverlayTapDismiss,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: style.overlayColor,
+      transitionDuration: style.animationDuration,
+      transitionBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+          ) =>
+          _showAnimation(animation, secondaryAnimation, child),
+    );
+  }
+  /// Displays defined alert window
+  Future<bool> assignFeedBackAlert() async {
+    return await showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext, Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+        return _assignFeedbackAlert1();
+      },
+      barrierDismissible: style.isOverlayTapDismiss,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: style.overlayColor,
+      transitionDuration: style.animationDuration,
+      transitionBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+          ) =>
+          _showAnimation(animation, secondaryAnimation, child),
+    );
+  }
 
   // Alert dialog content widget
   Widget _buildDialog() {
@@ -163,6 +230,7 @@ class Alert {
     );
   }
 
+
   // Alert dialog content widget
   Widget _sendGreeting() {
     TextStyle style1 = TextStyle(fontFamily: 'Montserrat' , fontSize: 20.0);
@@ -179,34 +247,199 @@ class Alert {
         contentPadding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
       ),
     );
+    return Center(
+      child: ConstrainedBox(
+        constraints: style.constraints ?? BoxConstraints.expand(width: double.infinity, height: double.infinity),
+        child: Center(
+          child: SingleChildScrollView(
+            child: AlertDialog(
+              backgroundColor: style.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+              shape: style.alertBorder ?? _defaultShape(),
+              titlePadding: EdgeInsets.all(0.0),
+              title: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _getCloseButton(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            20, (style.isCloseButton ? 0 : 20), 20, 0),
+                        child: Column(
+                          children: <Widget>[
+                            _getImage(acessToken),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              title,
+                              style: style.titleStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(
+                              height: desc == null ? 5 : 10,
+                            ),
+                            desc == null
+                                ? Container()
+                                : Text(
+                              desc,
+                              style: style.descStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                            content == null ? Container() : content,
+                            SizedBox(
+                              height: desc == null ? 5 : 10,
+                            ),
+                            sendGreetings,
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              contentPadding: style.buttonAreaPadding,
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _getButtons(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+// Alert dialog content widget
+  Widget _devCompletedAlert() {
+    TextStyle style1 = TextStyle(fontFamily: 'Montserrat' , fontSize: 20.0);
+    final sendGreetings = TextField(
+      controller: textFieldController,
+      obscureText: false,
+      style: style1,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      decoration: InputDecoration(
+        // contentPadding: const EdgeInsets.all(20.0),
+        hintText: 'Comments',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+      ),
+    );
+    return Center(
+      child: ConstrainedBox(
+        constraints: style.constraints ?? BoxConstraints.expand(width: double.infinity, height: double.infinity),
+        child: Center(
+          child: SingleChildScrollView(
+            child: AlertDialog(
+              backgroundColor: style.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+              shape: style.alertBorder ?? _defaultShape(),
+              titlePadding: EdgeInsets.all(0.0),
+              title: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _getCloseButton(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            20, (style.isCloseButton ? 0 : 20), 20, 0),
+                        child: Column(
+                          children: <Widget>[
+                            _getImage(acessToken),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: title,
+                                  style: style.titleStyle,
+                                  children:
+                                  [
+                                    TextSpan(
+                                      text:' *',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16.0),
+                                    ),                                           ]
+                              ),
+                            ),
+                            SizedBox(
+                              height: desc == null ? 5 : 10,
+                            ),
+                            desc == null
+                                ? Container()
+                                : Text(
+                              desc,
+                              style: style.descStyle,
+                              textAlign: TextAlign.center,
+                            ), SizedBox(
+                              height: 15,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: secondTitle,
+                                  style: style.titleStyle,
+                                  children:
+                                  [
+                                    TextSpan(
+                                      text:' *',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16.0),
+                                    ),                                           ]
+                              ),
+                            ),
+                            SizedBox(
+                              height: secondDesc == null ? 5 : 10,
+                            ),
+                            secondDesc == null
+                                ? Container()
+                                : Text(
+                              secondDesc,
+                              style: style.descStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                            content == null ? Container() : content,
+                            SizedBox(
+                              height: secondDesc == null ? 5 : 10,
+                            ),
+                            sendGreetings,
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              contentPadding: style.buttonAreaPadding,
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _getButtons(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
-    // Card(
-    //   child: InkWell(
-    //     child: Text('This is some text in a card'),
-    //     onTap: () => showDialog(
-    //       context: context,
-    //       builder: (context) => AlertDialog(
-    //         content: Stack(
-    //           alignment: Alignment.center,
-    //           children: <Widget>[
-    //             Image.asset(
-    //               'Path to image',
-    //               height: 200,
-    //               fit: BoxFit.cover,
-    //             ),
-    //             Text(
-    //               'This Is Some Text',
-    //               style: TextStyle(
-    //                 fontSize: 24,
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
 
+  // Alert dialog content widget
+  Widget _sendApprovalFeedBack() {
+    TextStyle style1 = TextStyle(fontFamily: 'Montserrat' , fontSize: 20.0);
+    final sendGreetings = TextField(
+      controller: textFieldController,
+      obscureText: false,
+      style: style1,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
+      decoration: InputDecoration(
+        // contentPadding: const EdgeInsets.all(20.0),
+        hintText: 'Comments',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
+        contentPadding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+      ),
+    );
     return Center(
         child: ConstrainedBox(
           constraints: style.constraints ?? BoxConstraints.expand(width: double.infinity, height: double.infinity),
@@ -231,10 +464,19 @@ class Alert {
                               SizedBox(
                                 height: 15,
                               ),
-                              Text(
-                                title,
-                                style: style.titleStyle,
-                                textAlign: TextAlign.center,
+                              RichText(
+                                text: TextSpan(
+                                    text: title,
+                                    style: style.titleStyle,
+                                    children:
+                                    [
+                                      TextSpan(
+                                        text:' *',
+                                        style: TextStyle(
+                                            color: Colors.red,
+                                            fontSize: 16.0),
+                                      ),                                           ]
+                                ),
                               ),
                               SizedBox(
                                 height: desc == null ? 5 : 10,
@@ -267,6 +509,80 @@ class Alert {
             ),
           ),
         ),
+    );
+  }
+
+  // Alert dialog content widget
+  Widget _assignFeedbackAlert1() {
+    return Center(
+      child: ConstrainedBox(
+        constraints: style.constraints ?? BoxConstraints.expand(width: double.infinity, height: double.infinity),
+        child: Center(
+          child: SingleChildScrollView(
+            child: AlertDialog(
+              backgroundColor: style.backgroundColor ?? Theme.of(context).dialogBackgroundColor,
+              shape: style.alertBorder ?? _defaultShape(),
+              titlePadding: EdgeInsets.all(0.0),
+              title: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      _getCloseButton(),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            20, (style.isCloseButton ? 0 : 20), 20, 0),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 15,
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                  text: title,
+                                  style: style.titleStyle,
+                                  children:
+                                  [
+                                    TextSpan(
+                                      text:' *',
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16.0),
+                                    ),                                           ]
+                              ),
+                            ),
+                            SizedBox(
+                              height: desc == null ? 5 : 10,
+                            ),
+                            desc == null
+                                ? Container()
+                                : Text(
+                              desc,
+                              style: style.descStyle,
+                              textAlign: TextAlign.center,
+                            ),
+                            dropDownWidget == null ? Container() : dropDownWidget,
+
+                            content == null ? Container() : content,
+                            SizedBox(
+                              height: desc == null ? 5 : 10,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              contentPadding: style.buttonAreaPadding,
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _getButtons(),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 

@@ -240,13 +240,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     } else if( menu['label'] == 'Spotlight') {
                       assetPath =  'Assets/MenuIcons/Spotlight.png';
                     }else if( menu['label'] == 'Diversity Dashboard') {
-                      assetPath =  'Assets/MenuIcons/Diversity.png';
+                      assetPath =  'Assets/MenuIcons/Diversity_Dashboard.png';
                     }else if( menu['label'] == 'Milestones') {
                       assetPath =  'Assets/MenuIcons/Calendar.png';
                     }else if( menu['label'] == 'Training') {
                       assetPath =  'Assets/MenuIcons/Training.png';
                     }else if( menu['label'] == 'Voice of an Abbottian') {
                       assetPath =  'Assets/VOAbottian/Email.png';
+                    }else if( menu['label'] == 'AID Bot') {
+                      assetPath =  'Assets/MenuIcons/Chatbot.png';
+                    }else if( menu['label'] == 'Release Notes') {
+                      assetPath =  'Assets/MenuIcons/Release_Notes.png';
+                    }else if( menu['label'] == 'Projects') {
+                      assetPath =  'Assets/MenuIcons/Projects.png';
+                    }else if( menu['label'] == 'Masters') {
+                      assetPath =  'Assets/MenuIcons/Masters.png';
+                    }else if( menu['label'] == 'Geolocation') {
+                      assetPath =  'Assets/MenuIcons/Geolocation.png';
+                    }else if( menu['label'] == 'Feedback') {
+                      assetPath =  'Assets/MenuIcons/Feedback.png';
+                    }else if( menu['label'] == 'Configuration') {
+                      assetPath =  'Assets/MenuIcons/Configurations.png';
+                    }else if( menu['label'] == 'Build Work') {
+                      assetPath =  'Assets/MenuIcons/Build.png';
+                    } else if( menu['label'] == 'SMO') {
+                      assetPath =  'Assets/MenuIcons/SMO_Inventory.png';
+                    } else if(menu['label'] == 'Operations') {
+                      assetPath = 'Assets/MenuIcons/Operations.png';
                     }
                     MenuIconsBasedRole.add(MenuIcons(menuTitle: menu['label'], assetPath: assetPath));
                   });

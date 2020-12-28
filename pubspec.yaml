@@ -60,6 +60,8 @@ dependencies:
   flutter_multiselect: ^0.5.1
   flutter_gifimage: ^1.0.1
   file_picker: ^2.1.4
+  image_picker: ^0.6.7+17
+  flutter_slidable: ^0.5.7
 
 #  timezone: ^0.5.7 # World Clock TimeZone
 #  date_format: ^1.0.8
@@ -130,6 +132,17 @@ flutter:
     - Assets/VOAbottian/Postcard.png
     - Assets/VOAbottian/postcard-animation.gif
     - Assets/VOAbottian/Email.png
+    - Assets/MenuIcons/SMO_Inventory.png
+    - Assets/MenuIcons/Release_Notes.png
+    - Assets/MenuIcons/Projects.png
+    - Assets/MenuIcons/Operations.png
+    - Assets/MenuIcons/Masters.png
+    - Assets/MenuIcons/Geolocation.png
+    - Assets/MenuIcons/Feedback.png
+    - Assets/MenuIcons/Configurations.png
+    - Assets/MenuIcons/Chatbot.png
+    - Assets/MenuIcons/Build.png
+    - Assets/MenuIcons/Diversity_Dashboard.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

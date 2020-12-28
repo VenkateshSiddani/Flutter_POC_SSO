@@ -108,6 +108,12 @@ const VOICE_SUBMIT = '${kBaseURL}/ResourceProfile/SubmitVoiceOfAbbottian';
 //Feedback
 const FEEDBACK_MODULES = '${kBaseURL}/Feedback/GetModuleDetails?empid=';
 const SUBMIT_FEEDBACK = '${kBaseURL}/Feedback/SaveFeedbackDetails';
+const FEEDBACK_ATTACHMENT = '${kBaseURL}/Feedback/SaveFeedbackAttachment';
+const FEEDBACK_EVALUATION = '${kBaseURL}/Feedback/GetFeedbackEvaluationdata';
+const PRODUCT_BACKLOGS = '${kBaseURL}/Feedback/GetProductBackLogDetails?empid=';
+const DASHBOARD_DETAILS = '${kBaseURL}/Feedback/GetDashboarddata?empid=';
+const DEVELOPER_DETAILS = '${kBaseURL}/ReleaseNotes/GetDeveloperDetails';
+const RELEASENOTE_DETAILS = '${kBaseURL}/ReleaseNotes/GetReleaseNotesDetails';
 
 /// Library images path
 const String kImagePath = "Assets";

@@ -676,7 +676,6 @@ class _VoiceOfAnAbbottianViewControllerState extends State<VoiceOfAnAbbottianVie
                 ),
               );;
             }
-
             if(selctedTab == 1) {
               return InkWell(
                   onTap: () {
@@ -724,8 +723,8 @@ class _VoiceOfAnAbbottianViewControllerState extends State<VoiceOfAnAbbottianVie
       ),
     ),
     );
-
   }
+
   // color: (index%2==0)?Colors.grey[350] :Colors.white,
   Widget itemName(String title, FontWeight fontWeight) {
     Widget column = Expanded(
